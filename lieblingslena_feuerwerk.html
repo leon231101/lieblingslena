@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Für Dich ❤️</title>
+<style>
+    body {
+        background: #000000;
+        color: #ffffff;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        padding-top: 40px;
+        margin: 0;
+        overflow-x: hidden;
+    }
+    .tap {
+        font-size: 65px;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.2s;
+        margin: 25px;
+    }
+    .tap:active {
+        transform: scale(1.3);
+    }
+    #message {
+        display: none;
+        font-size: 24px;
+        margin: 40px auto 60px auto;
+        color: #ffdf00;
+        line-height: 1.6;
+        max-width: 90%;
+    }
+    .hint {
+        color: #ff4d4d;
+        font-size: 20px;
+        margin-top: -10px;
+        animation: blink 1.3s infinite;
+    }
+    @keyframes blink {
+        50% { opacity: 0.3; }
+    }
+    .animals {
+        font-size: 40px;
+        margin-top: 40px;
+        line-height: 1.8;
+    }
+    #fireworks {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        z-index: -1;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<h2>✨ Eine kleine Überraschung wartet auf dich ✨</h2>
+
+<div class="tap" onclick="showMessage()">❤️</div>
+<div class="hint">👉 Tippe auf das Herz ❤️</div>
+
+<div class="animals">
+    🐈 🐈 🐈<br>
+    🦆 🦆<br>
+    🐕‍🦺 (Dackel)
+</div>
+
+<div id="message">
+    ✨ <strong>Für meine Lieblingslena</strong> ✨<br><br>
+    Ich wünsche Dir ein frohes neues Jahr. 🎉<br>
+    Auf viele wundervolle Momente, die wir beide erleben werden. ✨<br><br>
+    Ohne dich würde ich nicht mehr leben und weitermachen wollen.<br>
+    Danke für alles ♥️<br><br>
+    <strong>Von deinem liebsten Leon ❤️</strong>
+</div>
+
+<script>
+let fireworksStarted = false;
+
+function resizeCanvas() {
+    const canvas = document.getElementById('fireworks');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+function startFireworks() {
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    canvas.style.display = 'block';
+    resizeCanvas();
+
+    const colors = ['#ff0000', '#ff8800', '#ffff00', '#00ff00', '#00ffff', '#ff00ff'];
+
+    function drawFireworks() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const bursts = 25;
+        for (let i = 0; i < bursts; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height * 0.7;
+            const particles = 20;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let j = 0; j < particles; j++) {
+                const angle = (Math.PI * 2 / particles) * j;
+                const radius = Math.random() * 3 + 1;
+                const dist = Math.random() * 30 + 10;
+                const px = x + Math.cos(angle) * dist;
+                const py = y + Math.sin(angle) * dist;
+                ctx.beginPath();
+                ctx.arc(px, py, radius, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+        }
+    }
+
+    drawFireworks();
+    setInterval(drawFireworks, 500);
+}
+
+function showMessage(){
+    document.getElementById("message").style.display = "block";
+    window.scrollTo(0, document.body.scrollHeight);
+    if (!fireworksStarted) {
+        startFireworks();
+        fireworksStarted = true;
+    }
+}
+
+window.addEventListener('resize', resizeCanvas);
+</script>
+
+</body>
+</html>
